@@ -4,27 +4,50 @@ import java.util.*;
 
 public class Kruskal {
 
-    public void findMST(Graph g){
+    static int find(int parent[],int x){
 
-        ArrayList<Edge> edges = g.edges;
+        if(parent[x]==x)
+            return x;
 
-        edges.sort(Comparator.comparingInt(e -> e.cost));
+        return parent[x] = find(parent,parent[x]);
+    }
+
+    static void union(int parent[],int a,int b){
+
+        int rootA = find(parent,a);
+        int rootB = find(parent,b);
+
+        parent[rootA] = rootB;
+    }
+
+    public static void run(Graph g){
+
+        Collections.sort(g.edges);
+
+        int parent[] = new int[g.vertices];
+
+        for(int i=0;i<g.vertices;i++)
+            parent[i]=i;
 
         int totalCost = 0;
 
-        System.out.println("Minimum Spanning Tree:");
+        System.out.println("Spanning Tree (Kruskal)");
 
-        for(Edge e : edges){
+        for(Edge e : g.edges){
 
-            System.out.println(e.src + " - " + e.dest + " : " + e.cost);
+            int r1 = find(parent,e.from);
+            int r2 = find(parent,e.to);
 
-            totalCost += e.cost;
+            if(r1 != r2){
 
-            if(totalCost > 0 && totalCost >= g.vertices-1)
-                break;
+                System.out.println(e.from+" - "+e.to+" : "+e.cost);
+
+                totalCost += e.cost;
+
+                union(parent,r1,r2);
+            }
         }
 
-        System.out.println("Total Cost: " + totalCost);
+        System.out.println("Total cost = "+totalCost);
     }
-
 }

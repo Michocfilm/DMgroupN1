@@ -1,26 +1,25 @@
 package N2;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Graph {
 
     int vertices;
-    ArrayList<Edge> edges = new ArrayList<>();
+    ArrayList<Edge> edges;
 
-    public Graph(int vertices){
-        this.vertices = vertices;
+    public Graph(int v){
+        vertices = v;
+        edges = new ArrayList<>();
     }
 
-    public void addEdge(String s, String d, int c){
-        edges.add(new Edge(s,d,c));
+    public void addEdge(int from,int to,int cost){
+        edges.add(new Edge(from,to,cost));
     }
 
-    public boolean isComplete(){
+    public boolean isCompleteGraph(){
 
-        int n = vertices;
-        int maxEdges = n*(n-1)/2;
+        int expected = vertices*(vertices-1)/2;
 
-        return edges.size() == maxEdges;
+        return edges.size() == expected;
     }
-
 }
