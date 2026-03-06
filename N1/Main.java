@@ -50,6 +50,7 @@ public class Main {
             
             case 5:
                 System.out.println("Ok, You can go home and sleep now");
+                break;
                 
             default:
                 System.out.println("Invalid choice");
