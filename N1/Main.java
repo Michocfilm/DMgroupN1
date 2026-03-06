@@ -10,6 +10,8 @@ public class Main {
         System.out.println("1. Convert to Infix");
         System.out.println("2. Infix -> Postfix");
         System.out.println("3. Infix -> Prefix");
+        System.out.println("4. Show Stack + ALU Process");
+        System.out.println("5. ?????");
 
         System.out.print("Select: ");
         int choice = sc.nextInt();
@@ -19,11 +21,11 @@ public class Main {
 
             case 1:
                 Infix infix = new Infix();
-                infix.convertToInfix(); // ไปจัดการเมนูย่อยใน class Infix
+                infix.convertToInfix();
                 break;
 
             case 2:
-                System.out.print("Enter Infix Expression: ");
+                System.out.print("Enter Infix: ");
                 String exp1 = sc.nextLine();
 
                 Infix i1 = new Infix();
@@ -31,7 +33,7 @@ public class Main {
                 break;
 
             case 3:
-                System.out.print("Enter Infix Expression: ");
+                System.out.print("Enter Infix: ");
                 String exp2 = sc.nextLine();
 
                 Infix i2 = new Infix();
@@ -39,12 +41,15 @@ public class Main {
                 break;
 
             case 4:
-                System.out.print("Enter Postfix Expression: ");
+                System.out.print("Enter Postfix: ");
                 String exp3 = sc.nextLine();
 
                 Postfix p = new Postfix();
                 p.showStackProcess(exp3);
                 break;
+            
+            case 5:
+                System.out.println("Ok, You can go home and sleep now");
                 
             default:
                 System.out.println("Invalid choice");
