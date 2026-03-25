@@ -1,61 +1,56 @@
-package N2;
-
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
-
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Number of vertices: ");
+        System.out.print("Vertices: ");
         int v = sc.nextInt();
 
-        System.out.print("Number of edges: ");
+        System.out.print("Edges: ");
         int e = sc.nextInt();
 
         Graph g = new Graph(v);
-
         int[][] matrix = new int[v][v];
 
-        System.out.println("Enter edges (from to cost)");
+        System.out.println("Enter edges (u v cost):");
+        for (int i = 0; i < e; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
 
-        for(int i=0;i<e;i++){
-
-            int from = sc.nextInt();
-            int to = sc.nextInt();
-            int cost = sc.nextInt();
-
-            g.addEdge(from,to,cost);
-
-            matrix[from][to] = cost;
-            matrix[to][from] = cost;
+            g.addEdge(a, b, c);
+            matrix[a][b] = c;
+            matrix[b][a] = c;
         }
 
-        if(g.isCompleteGraph())
-            System.out.println("Graph is Complete Graph");
-        else
-            System.out.println("Graph is NOT Complete Graph");
-
-        System.out.println();
-        System.out.println("Choose Algorithm");
-        System.out.println("1 = Kruskal");
-        System.out.println("2 = Prim");
+        System.out.println("\n1. Check Complete");
+        System.out.println("2. Kruskal");
+        System.out.println("3. Prim");
+        System.out.println("4. Shortest Path");
 
         int choice = sc.nextInt();
 
-        if(choice == 1){
+        if (g.isComplete())
+            System.out.println("Graph is Complete Graph");
+        else
+            System.out.println("Graph is NOT Complete");
 
-            Kruskal.run(g);
-
-        }else if(choice == 2){
-
-            System.out.print("Start vertex: ");
-            int start = sc.nextInt();
-
-            Prim.run(matrix,start);
+        switch (choice) {
+            case 2:
+                Kruskal.run(g);
+                break;
+            case 3:
+                System.out.print("Start vertex: ");
+                int s = sc.nextInt();
+                Prim.run(matrix, s);
+                break;
+            case 4:
+                System.out.print("Start vertex: ");
+                int d = sc.nextInt();
+                Dijkstra.run(matrix, d);
+                break;
         }
-
-        sc.close();
     }
 }

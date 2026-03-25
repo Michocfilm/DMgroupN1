@@ -1,56 +1,36 @@
-package N2;
-
 public class Prim {
 
-    public static void run(int[][] graph,int start){
-
+    public static void run(int[][] graph, int start) {
         int v = graph.length;
-
-        boolean visited[] = new boolean[v];
-
+        boolean[] visited = new boolean[v];
         visited[start] = true;
 
-        int edgeCount = 0;
-        int totalCost = 0;
+        int total = 0;
 
-        System.out.println("Spanning Tree (Prim)");
+        System.out.println("\nMST (Prim):");
 
-        while(edgeCount < v-1){
-
+        for (int count = 0; count < v - 1; count++) {
             int min = Integer.MAX_VALUE;
+            int x = 0, y = 0;
 
-            int x = 0;
-            int y = 0;
-
-            for(int i=0;i<v;i++){
-
-                if(visited[i]){
-
-                    for(int j=0;j<v;j++){
-
-                        if(!visited[j] && graph[i][j]!=0){
-
-                            if(graph[i][j] < min){
-
-                                min = graph[i][j];
-                                x = i;
-                                y = j;
-
-                            }
+            for (int i = 0; i < v; i++) {
+                if (visited[i]) {
+                    for (int j = 0; j < v; j++) {
+                        if (!visited[j] && graph[i][j] != 0 && graph[i][j] < min) {
+                            min = graph[i][j];
+                            x = i;
+                            y = j;
                         }
                     }
                 }
             }
 
-            System.out.println(x+" - "+y+" : "+graph[x][y]);
-
-            totalCost += graph[x][y];
-
+            System.out.println(x + " - " + y + " : " + min +
+                    " (เลือก edge ที่เล็กสุด)");
             visited[y] = true;
-
-            edgeCount++;
+            total += min;
         }
 
-        System.out.println("Total cost = "+totalCost);
+        System.out.println("Total cost = " + total);
     }
 }
