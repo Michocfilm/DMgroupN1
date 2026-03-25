@@ -1,3 +1,4 @@
+// File: Main.java
 import java.util.Scanner;
 
 public class Main {
@@ -24,12 +25,14 @@ public class Main {
             return;
         }
 
+        int[][] matrix = buildAdjacencyMatrix(graph);
+
         System.out.println();
         System.out.println("=== Graph Summary ===");
-        System.out.println("Vertices = " + graph.getVertexCount());
-        System.out.println("Edges = " + graph.getEdgeCount());
+        System.out.println("Vertices = " + graph.vertices);
+        System.out.println("Edges = " + graph.edges.size());
 
-        if (graph.isCompleteGraph()) {
+        if (graph.isComplete()) {
             System.out.println("Graph is a Complete Graph");
         } else {
             System.out.println("Graph is NOT a Complete Graph");
@@ -45,15 +48,25 @@ public class Main {
 
         switch (algorithmChoice) {
             case 1:
-                runKruskal(graph);
+                System.out.println();
+                System.out.println("=== Kruskal MST ===");
+                Kruskal.run(graph);
                 break;
 
             case 2:
-                runPrim(graph, input);
+                System.out.println();
+                System.out.println("=== Prim MST ===");
+                System.out.print("Enter start vertex: ");
+                int primStart = input.nextInt();
+                Prim.run(matrix, primStart);
                 break;
 
             case 3:
-                runDijkstra(graph, input);
+                System.out.println();
+                System.out.println("=== Dijkstra Shortest Path ===");
+                System.out.print("Enter start vertex: ");
+                int dijkstraStart = input.nextInt();
+                Dijkstra.run(matrix, dijkstraStart);
                 break;
 
             default:
@@ -63,12 +76,12 @@ public class Main {
         input.close();
     }
 
-    private static Graph loadTestCase(Scanner input) {
+    static Graph loadTestCase(Scanner input) {
         System.out.println();
         System.out.println("Choose test case:");
-        System.out.println("1 = 4 vertices, 5 edges");
-        System.out.println("2 = Complete graph (3 vertices)");
-        System.out.println("3 = Dijkstra sample (5 vertices)");
+        System.out.println("1 = MST sample");
+        System.out.println("2 = Complete graph sample");
+        System.out.println("3 = Dijkstra sample");
         System.out.print("Your choice: ");
         int testCaseChoice = input.nextInt();
 
@@ -115,7 +128,7 @@ public class Main {
         return graph;
     }
 
-    private static Graph readGraphFromKeyboard(Scanner input) {
+    static Graph readGraphFromKeyboard(Scanner input) {
         System.out.print("Enter number of vertices: ");
         int vertexCount = input.nextInt();
 
@@ -136,31 +149,14 @@ public class Main {
         return graph;
     }
 
-    private static void runKruskal(Graph graph) {
-        System.out.println();
-        System.out.println("=== Kruskal MST ===");
+    static int[][] buildAdjacencyMatrix(Graph graph) {
+        int[][] matrix = new int[graph.vertices][graph.vertices];
 
-        Kruskal kruskal = new Kruskal(graph);
-        kruskal.findMinimumSpanningTree();
-    }
+        for (Edge edge : graph.edges) {
+            matrix[edge.from][edge.to] = edge.cost;
+            matrix[edge.to][edge.from] = edge.cost;
+        }
 
-    private static void runPrim(Graph graph, Scanner input) {
-        System.out.println();
-        System.out.println("=== Prim MST ===");
-        System.out.print("Enter start vertex: ");
-        int startVertex = input.nextInt();
-
-        Prim prim = new Prim(graph);
-        prim.findMinimumSpanningTree(startVertex);
-    }
-
-    private static void runDijkstra(Graph graph, Scanner input) {
-        System.out.println();
-        System.out.println("=== Dijkstra Shortest Path ===");
-        System.out.print("Enter start vertex: ");
-        int startVertex = input.nextInt();
-
-        Dijkstra dijkstra = new Dijkstra(graph);
-        dijkstra.findShortestPath(startVertex);
+        return matrix;
     }
 }
